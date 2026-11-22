@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#2E7D32">
+    <title>BIRDWATCH · Registro de Campo</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="manifest" href="manifest.json">
+</head>
+<body>
+    <header class="app-header">
+        <div class="header-content">
+            <div class="brand">
+                <span class="brand-icon" aria-hidden="true">🦜</span>
+                <div>
+                    <h1>BIRDWATCH</h1>
+                    <p>Captura móvil en campo · Sin conexión</p>
+                </div>
+            </div>
+            <span class="badge-offline" id="estadoCache" title="Almacenamiento local activo">Caché listo</span>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Tarjeta del Formulario -->
+        <section class="card form-card" aria-labelledby="titulo-form">
+            <div class="card-header">
+                <h2 id="titulo-form">Nuevo Avistamiento</h2>
+                <span class="helper-pill">Formato compatible CSV</span>
+            </div>
+
+            <form id="formAvistamiento" autocomplete="off">
+                <!-- Usuario Observador -->
+                <div class="form-group">
+                    <label for="usuario">Usuario responsable *</label>
+                    <div class="input-with-action">
+                        <input 
+                            type="text" 
+                            id="usuario" 
+                            name="usuario" 
+                            list="listaUsuarios" 
+                            placeholder="Ej. Judriguez, DavidSaurio..." 
+                            required
+                        >
+                        <button type="button" id="btnCambiarUsuario" class="btn-icon" title="Limpiar usuario para cambiar de observador">✕</button>
+                    </div>
+                    <datalist id="listaUsuarios">
+                        <option value="Judriguez">
+                        <option value="UkeFania">
+                        <option value="DavidSaurio">
+                        <option value="Admin1">
+                    </datalist>
+                    <small class="field-hint">Se recuerda automáticamente tras tu primer registro.</small>
+                </div>
+
+                <!-- Buscador inteligente de Ave (Nombre común o científico) -->
+                <div class="form-group autocomplete-wrapper">
+                    <label for="aveInput">Especie observada (Nombre común o científico) *</label>
+                    <input 
+                        type="text" 
+                        id="aveInput" 
+                        name="aveInput" 
+                        placeholder="Escribe ej: Búho, Tingua, Copetón o Asio..." 
+                        required
+                    >
+                    <ul id="sugerenciasAves" class="autocomplete-list hidden" role="listbox"></ul>
+                    <small class="field-hint" id="estadoTaxonomia">Al seleccionar una opción se guardará el nombre científico oficial.</small>
+                </div>
+
+                <!-- Fecha y Cantidad en 2 columnas -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="fecha">Fecha *</label>
+                        <input type="date" id="fecha" name="fecha" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cantidad">Cantidad *</label>
+                        <input type="number" id="cantidad" name="cantidad" min="1" max="9999" value="1" required>
+                    </div>
+                </div>
+
+                <!-- Lugar del avistamiento -->
+                <div class="form-group">
+                    <label for="lugar">Lugar del avistamiento *</label>
+                    <input 
+                        type="text" 
+                        id="lugar" 
+                        name="lugar" 
+                        list="listaLugares" 
+                        placeholder="Ej. Humedal La Conejera, Monserrate..." 
+                        required
+                    >
+                    <datalist id="listaLugares"></datalist>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block">
+                    + Guardar en Caché del Celular
+                </button>
+            </form>
+        </section>
+
+        <!-- Tarjeta de Resumen y Exportación -->
+        <section class="card export-card" aria-labelledby="titulo-registros">
+            <div class="card-header">
+                <div>
+                    <h2 id="titulo-registros">Registros en Caché (<span id="contadorRegistros">0</span>)</h2>
+                    <p class="subtitle">Listos para importar en BIRDWATCH Escritorio</p>
+                </div>
+            </div>
+
+            <div class="actions-bar">
+                <button type="button" id="btnDescargarCSV" class="btn btn-export" disabled>
+                    ⬇ Descargar CSV (<span id="contadorBtn">0</span>)
+                </button>
+                <button type="button" id="btnVaciarCache" class="btn btn-danger-outline" disabled>
+                    🗑 Vaciar
+                </button>
+            </div>
+
+            <!-- Lista de registros almacenados -->
+            <div id="listaRegistros" class="records-list">
+                <div class="empty-state">
+                    <p>Aún no tienes avistamientos guardados en este dispositivo.</p>
+                    <small>Los registros que agregues permanecerán aquí aunque cierres el navegador o pierdas señal.</small>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Notificación Toast -->
+    <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
+
+    <footer class="app-footer">
+        <p>BIRDWATCH · Sistema de Registro Ornitológico</p>
+    </footer>
+
+    <script src="especies.js"></script>
+    <script src="app.js"></script>
+    <script>
+        if ("serviceWorker" in navigator) {
+            window.addEventListener("load", () => {
+                navigator.serviceWorker.register("./sw.js")
+                    .then(() => console.log("BIRDWATCH lista para modo sin conexión"))
+                    .catch((err) => console.error("Error al registrar Service Worker:", err));
+            });
+        }
+    </script>
+</body>
+</html>

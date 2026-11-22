@@ -1,0 +1,18 @@
+{
+    "name": "BIRDWATCH · Registro de Campo",
+    "short_name": "BIRDWATCH",
+    "description": "Captura móvil de avistamientos de aves sin conexión",
+    "start_url": "./index.html",
+    "display": "standalone",
+    "background_color": "#EAF4EA",
+    "theme_color": "#2E7D32",
+    "orientation": "portrait",
+    "icons": [
+      {
+        "src": "https://cdn-icons-png.flaticon.com/512/3069/3069172.png",
+        "sizes": "512x512",
+        "type": "image/png",
+        "purpose": "any maskable"
+      }
+    ]
+  }
