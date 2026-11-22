@@ -8,11 +8,11 @@
     "theme_color": "#2E7D32",
     "orientation": "portrait",
     "icons": [
-      {
-        "src": "https://cdn-icons-png.flaticon.com/512/3069/3069172.png",
-        "sizes": "512x512",
-        "type": "image/png",
-        "purpose": "any maskable"
-      }
+        {
+            "src": "./icon-birdwatch.jpg",
+            "sizes": "512x512",
+            "type": "image/jpeg",
+            "purpose": "any maskable"
+        }
     ]
-  }
+}

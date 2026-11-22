@@ -1,10 +1,11 @@
-const CACHE_NAME = "birdwatch-pwa-v1";
+const CACHE_NAME = "birdwatch-pwa-v2";
 const ARCHIVOS_A_CACHEAR = [
     "./",
     "./index.html",
     "./styles.css",
     "./especies.js",
     "./app.js",
+    "./icon-birdwatch.jpg",
     "./manifest.json"
 ];
 
